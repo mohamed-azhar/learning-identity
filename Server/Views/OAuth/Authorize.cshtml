@@ -1,0 +1,14 @@
+﻿@model string
+
+@{ 
+    var postAction = $"/OAuth/Authorize{Model}";
+}
+
+<p>model: @(Model)</p>
+<p>action: @(postAction)</p>
+
+    <form action="@(postAction)" method="post">
+        <label>Username</label>
+        <input type="text" id="username" name="username" value="" />
+        <button type="submit">Submit</button>
+    </form>
