@@ -16,7 +16,7 @@ namespace Client.Controllers
         public async Task<IActionResult> Secret()
         {
             var token = await HttpContext.GetTokenAsync("access_token");
-            ViewBag.Token = token;
+            //ViewBag.Token = token;
             return View();
         }
     }

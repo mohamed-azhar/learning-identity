@@ -18,11 +18,11 @@ namespace Client
         {
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = "ClientCookie";
-                options.DefaultSignInScheme = "ClientCookie";
-                options.DefaultChallengeScheme = "OurServer";
-            }).AddCookie("ClientCookie")
-            .AddOAuth("OurServer", options =>
+                options.DefaultAuthenticateScheme = "mifco.web";
+                options.DefaultSignInScheme = "mifco.web";
+                options.DefaultChallengeScheme = "challenge.web";
+            }).AddCookie("mifco.web")
+            .AddOAuth("challenge.web", options =>
             {
                 options.SaveTokens = true;
                 options.CallbackPath = "/oauth/callback";
