@@ -1,4 +1,6 @@
+using Api.AuthenticationHandler;
 using Api.AuthRequirements;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +22,8 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication();
+            services.AddAuthentication("DefaultAuth")
+                .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("DefaultAuth", null);
 
             services.AddAuthorization(options =>
             {

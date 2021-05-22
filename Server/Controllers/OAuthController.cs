@@ -33,7 +33,7 @@ namespace Server.Controllers
             return Redirect($"{redirectUri}{queryBuilder}");
         }
 
-        public async Task<IActionResult> Token(string grant_type, string code, string redirect_uri, string client_id)
+        public async Task<IActionResult> Token(string grant_type, string code, string redirect_uri, string client_id, string refresh_token)
         {
             //prepare claims
             var claims = new[]
@@ -61,7 +61,7 @@ namespace Server.Controllers
                 Constants.Audience,
                 claims,
                 DateTime.Now,
-                DateTime.Now.AddHours(1),
+                grant_type == "refresh_token" ? DateTime.Now.AddMinutes(5) : DateTime.Now.AddMilliseconds(1),
                 signingCredentials);
 
             //generate jwt using handler
@@ -71,7 +71,8 @@ namespace Server.Controllers
             {
                 access_token,
                 token_type = "Bearer",
-                custom_claim = "my custom claim haha"
+                custom_claim = "my custom claim haha",
+                refresh_token = "this-is-a-sample-rfresh-token"
             };
 
             var response = System.Text.Json.JsonSerializer.Serialize(responseObject);
