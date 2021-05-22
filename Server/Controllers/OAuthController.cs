@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -79,6 +80,16 @@ namespace Server.Controllers
             await Response.Body.WriteAsync(bytes, 0, bytes.Length);
 
             return Redirect(redirect_uri);
+        }
+
+        [Authorize]
+        public IActionResult Validate()
+        {
+            if (HttpContext.Request.Query.TryGetValue("access_token", out var token))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
