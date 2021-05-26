@@ -6,27 +6,29 @@ namespace IdentityServer
 {
     public static class Configuration
     {
-        public static IEnumerable<ApiResource> GetApis()
-        {
-            return new List<ApiResource>()
+        public static IEnumerable<ApiResource> GetApis() =>
+            new List<ApiResource>
             {
-                new ApiResource("ApiOne")
+                new ApiResource("ApiOne"),
             };
-        }
 
-        public static IEnumerable<Client> GetClients()
-        {
-            return new List<Client>()
+        public static IEnumerable<ApiScope> GetScopes() =>
+            new List<ApiScope>
             {
-                new Client()
-                {
-                    ClientId = "e5152668-462a-46c6-a297-6224917ff8d7",
-                    ClientSecrets = new [] {new Secret("e5152668-462a-46c6-a297-6224917ff8d7.secret".ToSha256())},
+                new ApiScope("ApiOne")
+            };
+
+        public static IEnumerable<Client> GetClients() =>
+            new List<Client>
+            {
+                new Client {
+                    ClientId = "client_id",
+                    ClientSecrets = { new Secret("client_secret".ToSha256()) },
+
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = new [] { "ApiOne" }
+
+                    AllowedScopes = { "ApiOne" }
                 }
             };
-        }
-
     }
 }

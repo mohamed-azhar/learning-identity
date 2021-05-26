@@ -3,19 +3,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace IdentityServer
+namespace ApiOne
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
-                .AddInMemoryApiResources(Configuration.GetApis())
-                .AddInMemoryClients(Configuration.GetClients())
-                .AddInMemoryApiScopes(Configuration.GetScopes())
-                .AddDeveloperSigningCredential();
+            services.AddAuthentication("Bearer")
+               .AddJwtBearer("Bearer", config => {
+                   config.Authority = "https://localhost:44302/";
 
-            services.AddControllersWithViews();
+                   config.Audience = "ApiOne";
+               });
+
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,11 +28,13 @@ namespace IdentityServer
 
             app.UseRouting();
 
-            app.UseIdentityServer();
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
             });
         }
     }
